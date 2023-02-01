@@ -17,9 +17,9 @@ Please, see the `REAMDME.md` files in these directories for details on how to us
 # Citing this work
 
 ```
-@article{pisokas2022can,
+@article{Pisokas2022can,
   title={Can the Insect Path Integration Memory be a Bump Attractor?},
-  author={Pisokas, Ioannis and Hennig, Matthias H},
+  author={Pisokas, Ioannis and Kudryashova, Nina and Hennig, Matthias H},
   journal={bioRxiv},
   pages={2022--04},
   year={2022},
