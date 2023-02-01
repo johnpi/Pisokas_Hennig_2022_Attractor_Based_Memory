@@ -14,6 +14,23 @@ and
 
 Please, see the `REAMDME.md` files in these directories for details on how to use the respective code. 
 
+To recreate the required software environment with conda use 
+
+```conda create --name <env> --file requirements-conda.txt```
+
+This file was generated using 
+
+```conda list -e > requirements-conda.txt```
+
+To recreate the required software environment with pip use
+
+```pip install -r requirements-pip.txt```
+
+This file was generated using 
+
+```pip list --format=freeze > requirements-pip.txt```
+
+
 # Citing this work
 
 ```
