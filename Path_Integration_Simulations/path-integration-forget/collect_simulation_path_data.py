@@ -9,31 +9,6 @@
 # Collected outbound paths using 
 # iter=001; ve=Generate_outbound_route; noise_slope=9.0; noise_syn=0.1; noise_turn=7.0; echo "Noise synaptic   ${noise_syn}"; echo "Noise locomotive ${noise_turn}"; echo "Noise slope      ${noise_slope}"; echo "======================="; python collect_simulation_path_data.py ${ve} SAVE SHOW:SAVE "${iter}" "${noise_syn}" "${noise_turn}" DEFAULT "${noise_slope}"
 # outbound_route_only_S_to_N_1500steps_noiseSyn0.1_noiseRot7.0_noiseSlope9.0_route_Generate_outbound_route_001.npz straight north.
-# outbound_route_only_S_to_N_1500steps_noiseSyn0.1_noiseRot7.0_noiseSlope9.0_route_Generate_outbound_route_001.png
-# with_Pontin_Holonomic_noiseSyn0.1_noiseRot7.0_noiseSlope9.0_route_Generate_outbound_route_002.npz east a bit down
-# all_trajectories_noiseSyn0.1_noiseRot7.0_noiseSlope9.0_route_Generate_outbound_route_002.png
-# with_Pontin_Holonomic_noiseSyn0.1_noiseRot7.0_noiseSlope9.0_route_Generate_outbound_route_003.npz south west
-# all_trajectories_noiseSyn0.1_noiseRot7.0_noiseSlope9.0_route_Generate_outbound_route_003.png
-
-
-# Simulated FV agent paths with noise added to the memory
-# The distance memory state of a bump attractor network follows a stochastic diffusion over time. This is what must happen while the ants wait for release. We simulate the stochastic diffusion of the distance memory as a random walk (Wiener process or 1D Brownian motion) during a wait period. Random walk with Gaussian noise mu=0 and std=0.0055 results in a diffusion rate 0.0342m/h which is the closest match to the ants' 0.034m/h. To simplify the computational complexity we substitute the full random walk simulations with the distribution of the final locations of random walks. This distribution is a function of the std=0.0055 used to generate the value random walk and the duration of the wait before release <duration>. The distribution of the final locations of the random walks is again a Gaussian with mu=0 and std_2=sqrt(duration)*std=sqrt(duration)*0.0055.
-# Used wait_duration_hours = np.array([1, 24, 48, 96]) # hours waiting before release
-# rand_walk_std=0.0055
-# mem_noise_std = np.sqrt(wait_duration_hours * 60 * 60) * rand_walk_std
-# mem_noise_std = mem_noise_std / 128 # Scaled in the context of the physical space represented in memory (max 128m) = [0.00257812, 0.01263018, 0.01786177, 0.02526036].
-
-# The homing paths are quite noisy and cover the effect of memory noise
-# Simulated FV agent paths without and with stochastic diffusion of memory before release
-# ve=FV; noise_slope=9.0; noise_syn=0.1; noise_turn=7.0; echo "Noise synaptic   ${noise_syn}"; echo "Noise locomotive ${noise_turn}"; echo "Noise slope      ${noise_slope}"; echo "======================="; for mem in DEFAULT n0.00257812 n0.01263018 n0.01786177 n0.02526036; do for iter in $(seq 1001 1100); do echo "Iteration           : $iter"; echo "Memory              : $mem"; python collect_simulation_path_data.py ${ve}_release SAVE:LOAD:outbound_route_only_S_to_N_1500steps_noiseSyn0.1_noiseRot7.0_noiseSlope9.0_route_Generate_outbound_route_001.npz DEFAULT "${iter}" "${noise_syn}" "${noise_turn}" "${mem}" "${noise_slope}"; done; done
-
-
-# Trying with less memory noise
-# Simulated FV agent paths without and with stochastic diffusion of memory before release
-# outbound_file=outbound_route_only_NE_to_SW_1500steps_noiseSyn0.1_noiseRot7.0_noiseSlope9.0_route_Generate_outbound_route_003.npz
-
-# outbound_file=outbound_route_only_S_to_N_1500steps_noiseSyn0.1_noiseRot7.0_noiseSlope9.0_route_Generate_outbound_route_001.npz
-
 
 # ---------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------
@@ -109,7 +84,7 @@
 # 0h (p0), 1h (p1), 24h (p24), 48h (p48), 96h (p96), 144h (p144), 192h (p192), 240h (p240), 288h (p288), 336h (p336), 384h (p384)
 # ve=FV; noise_slope=9.0; noise_syn=0.1; noise_turn=2.0; echo "Noise synaptic   ${noise_syn}"; echo "Noise locomotive ${noise_turn}"; echo "Noise slope      ${noise_slope}"; echo "======================="; for mem_wait in 0 1 24 48 96 144 192 240 288 336 384 432; do for mem_noise in 0.0 0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01 0.015 0.02; do for mem_Nl in 0.002 0.004 0.006  0.008  0.01 0.012 0.014 0.016 0.018 0.02; do for mem_r in -0.008 -0.010 -0.012 -0.014 -0.016 -0.018 -0.020  -0.022  -0.024 -0.026 -0.028 -0.030 -0.032; do mem="p${mem_wait},${mem_noise},${mem_Nl},${mem_r}"; for iter in $(seq 1001 1040); do echo "Iteration           : $iter"; echo "Memory              : $mem"; python3 collect_simulation_path_data.py ${ve}_release SAVE:LOAD:${outbound_file} DEFAULT "${iter}" "${noise_syn}" "${noise_turn}" "${mem}" "${noise_slope}"; done; done; done; done; done
 
-# I actually run this script instead tp spawn several longjobs in a server to run in parallel batches of the data collection:
+# I actually used this script instead to spawn several longjobs in a server to run in parallel batches of the data collection:
 # cat spawn_longjobs.sh
 # #!/bin/bash
 # echo "Spawning a set of longjobs in the computer..."
@@ -176,9 +151,6 @@
 
 # Then used this script to convert npz files to csv files containing only the trajectories and deleted the npz files
 # python3 npz_to_csv.py -i=/disk/data/ipisokas/data/Conditions/Memory/ -o=/disk/data/ipisokas/data/Converted_to_CSV/Conditions/Memory/
-
-# Actually in the new collections I used the scripts spawn_data_collection_longjobs.sh 
-# for running on servers and spawn_data_collection_qjobs.sh for running on the eddie grid. 
 
 # Then used this script to analyse the data
 # python3 analyse_trajectories_publication_script.py /disk/data/ipisokas/data/Converted_to_CSV/Conditions/Memory/

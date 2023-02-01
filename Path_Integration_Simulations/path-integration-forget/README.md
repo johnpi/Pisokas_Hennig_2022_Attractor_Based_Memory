@@ -13,7 +13,7 @@ Parameters are specified in central_complex.py
 
 2. Follow the examples shown in ```collect_simulation_path_data.py``` to organise the generated files in directories. 
 
-3. Use the script ```npz_to_csv.ipynb``` convert the .npz generated with the previous steps to .csv files. 
+3. Use the script ```npz_to_csv.ipynb``` to convert the .npz generated with the previous steps to .csv files. 
 
 
 
