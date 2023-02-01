@@ -31,8 +31,7 @@ This will start a job on the computing cluster:
 
 where
 
-`
-
+```
      MODEL      : The model to use: 'NMDA', 'EC_LV_1', 'SIMPLE', 'NMDA-TAU', 'NMDA-SHIFT', 'full', or 'reduced' network. 'NMDA' was used to run the base model simulations, 'EC_LV_1' was used to run the simulations with the non-specific cation conductances, 'NMDA-TAU', was used for running simulations with different time constant values, and 'NMDA-SHIFT' was used for running simulations with asymmetric latteral excitation to produce biased drift of the attractor state. 
      
      NEURONS    : The number of excitatory neurons
@@ -48,8 +47,7 @@ where
      TAU_M      : The neuronal membrane time constant in ms (optional, not used by all models, default -1 an invalid value that is ignored)
      
      SKEW_W     : The amount of skewing of the Gaussian distribution of excitatory synaptic weights (optional, only used by the NMDA-SHIFT model, and if provided both TAU_M and SKEW_W must be provided even though the TAU_M will be ignored but needed for the positional variable assignment. Default 0.05: small skewing towards the right)
-
-`
+```
 
 
 
